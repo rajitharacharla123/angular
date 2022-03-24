@@ -1,0 +1,170 @@
+<div class="card">
+    <h4 class="card-header">Orders</h4>
+    <button class="btn btn-primary ml-auto mt-3 mr-3" (click)="addOrderList(addOrder)">
+        New Order
+    </button>
+    <div class="card-body">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Due Date</th>
+                        <th>Customer Buyer Name</th>
+                        <th>Customers Address</th>
+                        <th>Customer Phone</th>
+                        <th>Order Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of orderList;let i=index">
+                        <td>{{data.id}}</td>
+                        <td>{{data.orderdate| date: 'MM/dd/yyyy'}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.address}}</td>
+                        <td>{{data.phonenum}}</td>
+                        <td>{{data.ordertotal}}</td>
+                        <td>
+                            <button class="btn btn-success mr-2"
+                                (click)="editOrderList(editOrder,data.id)">Edit</button>
+                            <button class="btn btn-danger" (click)="deleteOrder(data.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #addOrder let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title "><b>Add Order</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addOrdersForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <label for="ordernumber" class="col-3">Order Number</label>
+                <input type="number" formControlName="ordernumber" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.ordernumber.errors }" />
+                <div *ngIf="submitted && f.ordernumber.errors" class="invalid-feedback">
+                    <div *ngIf="f.ordernumber.errors.required" class="errrcss">Order Number is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="orderduedate" class="col-3">Order Due Date</label>
+                <input type="date" formControlName="orderduedate" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.orderduedate.errors }" />
+                <div *ngIf="submitted && f.orderduedate.errors" class="invalid-feedback">
+                    <div *ngIf="f.orderduedate.errors.required" class="errrcss">Order Due Date is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customername" class="col-3">Customer Name</label>
+                <input type="text" formControlName="customername" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.customername.errors }" />
+                <div *ngIf="submitted && f.customername.errors" class="invalid-feedback">
+                    <div *ngIf="f.customername.errors.required" class="errrcss">Customer Name is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customeraddress" class="col-3">Customer Address</label>
+                <input type="text" formControlName="customeraddress" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.customeraddress.errors }" />
+                <div *ngIf="submitted && f.customeraddress.errors" class="invalid-feedback">
+                    <div *ngIf="f.customeraddress.errors.required" class="errrcss">Customer Address is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customerphone" class="col-3">Customer Phone</label>
+                <input type="number" formControlName="customerphone" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.customerphone.errors }" />
+                <div *ngIf="submitted && f.customerphone.errors" class="invalid-feedback">
+                    <div *ngIf="f.customerphone.errors.required" class="errrcss">Customer Phone is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="ordertotal" class="col-3">Order Total</label>
+                <input type="text" formControlName="ordertotal" maxlength="10" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted && f.ordertotal.errors }" />
+                <div *ngIf="submitted && f.ordertotal.errors" class="invalid-feedback">
+                    <div *ngIf="f.ordertotal.errors.required" class="errrcss">Order Total is required</div>
+                </div>
+            </div>
+            <div class="col-4 row ml-1 mt-3">
+                <button class="btn btn-primary ml-auto">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #editOrder let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title "><b>Edit Order</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="editOrdersForm" (ngSubmit)="onSubmit1()">
+            <div class="row">
+                <label for="ordernumber" class="col-3">Order Number</label>
+                <input type="number" formControlName="ordernumber" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.ordernumber.errors }" />
+                <div *ngIf="submitted1 && f1.ordernumber.errors" class="invalid-feedback">
+                    <div *ngIf="f1.ordernumber.errors.required" class="errrcss">Order Number is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="orderduedate" class="col-3">Order Due Date</label>
+                <input type="date" formControlName="orderduedate" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.orderduedate.errors }" />
+                <div *ngIf="submitted1 && f1.orderduedate.errors" class="invalid-feedback">
+                    <div *ngIf="f1.orderduedate.errors.required" class="errrcss">Order Due Date is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customername" class="col-3">Customer Name</label>
+                <input type="text" formControlName="customername" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.customername.errors }" />
+                <div *ngIf="submitted1 && f1.customername.errors" class="invalid-feedback">
+                    <div *ngIf="f1.customername.errors.required" class="errrcss">Customer Name is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customeraddress" class="col-3">Customer Address</label>
+                <input type="text" formControlName="customeraddress" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.customeraddress.errors }" />
+                <div *ngIf="submitted1 && f1.customeraddress.errors" class="invalid-feedback">
+                    <div *ngIf="f1.customeraddress.errors.required" class="errrcss">Customer Address is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="customerphone" class="col-3">Customer Phone</label>
+                <input type="number" formControlName="customerphone" class="form-control col-5" maxlength="10"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.customerphone.errors }" />
+                <div *ngIf="submitted1 && f1.customerphone.errors" class="invalid-feedback">
+                    <div *ngIf="f1.customerphone.errors.required" class="errrcss">Customer Phone is required</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <label for="ordertotal" class="col-3">Order Total</label>
+                <input type="text" formControlName="ordertotal" class="form-control col-5"
+                    [ngClass]="{ 'is-invalid': submitted1 && f1.ordertotal.errors }" />
+                <div *ngIf="submitted1 && f1.ordertotal.errors" class="invalid-feedback">
+                    <div *ngIf="f1.ordertotal.errors.required" class="errrcss">Order Total is required</div>
+                </div>
+            </div>
+            <div class="col-4 row ml-1 mt-3">
+                <button class="btn btn-primary ml-auto">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
